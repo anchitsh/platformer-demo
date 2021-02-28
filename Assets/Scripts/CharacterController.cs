@@ -149,7 +149,16 @@ public class CharacterController : MonoBehaviour
             move = true;
         }*/
         // Move the character by finding the target velocity
-        Vector3 targetVelocity = new Vector2(horizontalAxis * walk_speed , rb.velocity.y);
+        float speed;
+        if (isGrounded)
+        {
+            speed = walk_speed;
+        }
+        else
+        {
+            speed = walk_speed - .5f;
+        }
+        Vector3 targetVelocity = new Vector2(horizontalAxis * speed , rb.velocity.y);
         // And then smoothing it out and applying it to the character
         rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
     }
@@ -233,7 +242,7 @@ public class CharacterController : MonoBehaviour
         if (bufferbool == true)
         {
             buffercounter++;
-            if (isGrounded)
+            if (isGrounded && !jump)
             {
 
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
