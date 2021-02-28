@@ -18,5 +18,7 @@ public class AnimationController : MonoBehaviour
     {
         print("HorizontalAxis"+chara.horizontalAxis);
         ani.SetFloat("HorizontalAxis", chara.horizontalAxis);
+        ani.SetBool("jump", chara.jump);
+        ani.SetInteger("jumpState", chara.midair);
     }
 }
