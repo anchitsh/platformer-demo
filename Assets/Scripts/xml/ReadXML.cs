@@ -23,4 +23,12 @@ public class ReadXML
         var serializer = new XmlSerializer(typeof(ReadXML));
         return serializer.Deserialize(new StringReader(text)) as ReadXML;
     }
+    public void Save(string path)
+    {
+        var serializer = new XmlSerializer(typeof(ReadXML));
+        using (var stream = new FileStream(path, FileMode.Create))
+        {
+            serializer.Serialize(stream, this);
+        }
+    }
 }

@@ -1,46 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TileCollection>
   <TileObjects>
-    <TileObj>
-      <type>Stone</type>
-      <x>0</x>
-      <y>0</y>
-    </TileObj>
-    <TileObj>
-      <type>Stone</type>
-      <x>1</x>
-      <y>0</y>
-    </TileObj>
-    <TileObj>
-      <type>Stone</type>
-      <x>2</x>
-      <y>0</y>
-    </TileObj>
-    <TileObj>
-      <type>Stone</type>
-      <x>3</x>
-      <y>0</y>
-    </TileObj>
-    <TileObj>
-      <type>Stone</type>
-      <x>4</x>
-      <y>0</y>
-    </TileObj>
-    <TileObj>
-      <type>Stone</type>
-      <x>5</x>
-      <y>0</y>
-    </TileObj>
-    <TileObj>
-      <type>Stone</type>
-      <x>6</x>
-      <y>0</y>
-    </TileObj>
-    <TileObj>
-      <type>Stone</type>
-      <x>7</x>
-      <y>0</y>
-    </TileObj>
+
  <TileObj>
       <type>Stone</type>
       <x>0</x>
@@ -304,7 +265,7 @@
     <TileObj>
       <type>Stone</type>
       <x>-6</x>
-      <y>6</y>
+      <y>8</y>
     </TileObj>
     <TileObj>
       <type>Stone</type>
@@ -422,6 +383,46 @@
       <type>Coin</type>
       <x>0</x>
       <y>.6</y>
+    </TileObj>
+    <TileObj>
+      <type>Stone</type>
+      <x>-12</x>
+      <y>6</y>
+    </TileObj>
+    <TileObj>
+      <type>Stone</type>
+      <x>-12</x>
+      <y>7</y>
+    </TileObj>
+    <TileObj>
+      <type>Normal</type>
+      <x>-11</x>
+      <y>3</y>
+    </TileObj>
+    <TileObj>
+      <type>Normal</type>
+      <x>-10</x>
+      <y>3</y>
+    </TileObj>
+    <TileObj>
+      <type>Normal</type>
+      <x>-9</x>
+      <y>3</y>
+    </TileObj>
+    <TileObj>
+      <type>Coin</type>
+      <x>-2.04</x>
+      <y>1.084</y>
+    </TileObj>
+    <TileObj>
+      <type>Coin</type>
+      <x>-2.27</x>
+      <y>1.084</y>
+    </TileObj>
+    <TileObj>
+      <type>Coin</type>
+      <x>-2.51</x>
+      <y>1.084</y>
     </TileObj>
   </TileObjects>  
 </TileCollection>

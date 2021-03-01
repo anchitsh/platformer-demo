@@ -135,5 +135,5 @@ MonoBehaviour:
     type: 3}
   CoinParticlePrefab: {fileID: 4004353510139125966, guid: 2b895d70631fcd143a8fc8c3d95f7df5,
     type: 3}
-  magnetDistance: 1
-  speed: 2
+  magnetDistance: 0.5
+  speed: 1

@@ -16,7 +16,7 @@ public class LoadLevel : MonoBehaviour
     {
         //var xmlData = @"<TileCollection><TileObjects><TileObj><type>Normal</type><x>0</x><y>0</y></TileObj></TileObjects></TileCollection>";
         //var tileCollection = ReadXML.LoadFromText(xmlData);
-        var tileCollection = ReadXML.Load(Path.Combine(Application.dataPath, "tilemap.xml"));
+        var tileCollection = ReadXML.Load(Path.Combine(Application.dataPath, "alltiles.xml"));
 
         print(tileCollection.TileObjects[0].type);
 
