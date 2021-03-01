@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class CoinScript : MonoBehaviour
 {
-    public GameObject ScorePlus, CoinParticle, Player;
+    public GameObject ScorePlusPrefab, CoinParticlePrefab;
+    private GameObject Player;
     public float magnetDistance, speed;
-    private float playerPosition, bfPosition, distance;
+    private float playerPosition, coinPosition, distance;
     Vector2 playerDirection;
 
+    public void Start()
+    {
+        Player = GameObject.FindGameObjectWithTag("Player");
+    }
     public void Update()
     {
         playerPosition = Player.transform.position.x;
-        bfPosition = transform.position.x;
-        distance = Mathf.Abs(playerPosition - bfPosition);
+        coinPosition = transform.position.x;
+        distance = Mathf.Abs(playerPosition - coinPosition);
         if (distance < magnetDistance)
         {
-            float step = speed * Time.deltaTime; // calculate distance to move
+            float step = speed * Time.deltaTime; 
             transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, step);
         }
 
@@ -26,10 +31,10 @@ public class CoinScript : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             CoinManager.coins++;
-            GameObject a = Instantiate(ScorePlus);
-            a.transform.position = transform.position +new Vector3(0, .3f, 0);
-            GameObject b = Instantiate(CoinParticle);
-            b.transform.position = transform.position + new Vector3(0, 0, 0);
+            GameObject score = Instantiate(ScorePlusPrefab);
+            score.transform.position = transform.position +new Vector3(0, .3f, 0);
+            GameObject particle = Instantiate(CoinParticlePrefab);
+            particle.transform.position = transform.position + new Vector3(0, 0, 0);
             Destroy(this.gameObject);
         }
     }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class CharacterController : MonoBehaviour
 {
 
-    public float speed;
     public float jumpForce;
     public int morejumps;
     private Rigidbody2D rb;
@@ -14,21 +13,18 @@ public class CharacterController : MonoBehaviour
     public Transform isGroundedChecker;
     public float checkGroundRadius;
     public LayerMask groundLayer;
-    public float rememberGroundedFor;
-    float lastTimeGrounded;
+
     public int defaultAdditionalJumps = 1;
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
-    private int buffercounter = 0, coybuffer = 0;
-    public int buffermax = 10, coymax = 10;
-    bool bufferbool;
+    private int bufferCounter = 0, coyBuffer = 0;
+    public int bufferMax = 10, coyMax = 10;
+    bool bufferBool;
     bool midjump;
-    Collider2D body;
-    bool isclimbing = false;
     float gravityScaleAtStart;
 
     //Animator animator;
-    public int midair;
+    public int midAir;
     bool walltouch;
 
     public static bool move;
@@ -42,67 +38,56 @@ public class CharacterController : MonoBehaviour
 
     public ParticleSystem jumpParticle;
     private bool groundTouch;
-    [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;
-    private Vector3 m_Velocity = Vector3.zero;
+    [Range(0, .3f)] [SerializeField] private float movementSmoothing = .05f;
+    private Vector3 velocityRef = Vector3.zero;
 
     public bool onRightWall;
     public bool onLeftWall;
     public float collisionRadius = 0.25f;
-    public Vector2 bottomOffset, rightOffset, leftOffset;
+    public Vector2  rightOffset, leftOffset;
 
     Animator ani;
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         morejumps = defaultAdditionalJumps;
-        body = rb.GetComponent<Collider2D>();
         gravityScaleAtStart = rb.gravityScale;
-        // animator = GetComponent<Animator>();
-        // animator.SetBool("jump", false);
         jump = false;
-        midair = 0;
+        midAir = 0;
         groundTouch = false;
         ani = GetComponent<Animator>();
 
     }
     private void FixedUpdate()
     {
-        movestatic();
+        Move();
     }
-    // Update is called once per frame
+
     void Update()
     {
-
-
-
         Jump();
         BetterJump();
-        bufferjump();
-        coyetetime();
+        BufferJump();
+        CoyeteTime();
         if (isGrounded = true && rb.velocity.y == 0)
         {
             midjump = false;
         }
-        // Debug.Log(midjump + "midjump");
-        //Debug.Log("grounded" + isGrounded);
         CheckIfGrounded();
-        Debug.Log("grounded" + isGrounded);
+        CheckWalls();
+
 
         if (rb.velocity.y < y_max)
         {
             rb.velocity = new Vector2(rb.velocity.x, y_max);
         }
         mid_air();
-        print("midair int"+midair);
-        print("jump" + jump);
         if (isGrounded && !groundTouch)
         {
-            GroundTouch();
+            jumpParticle.Play();
             ani.SetTrigger("land");
             groundTouch = true;
         }
-
         if (!isGrounded && groundTouch)
         {
             groundTouch = false;
@@ -116,39 +101,13 @@ public class CharacterController : MonoBehaviour
             transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
 
-        onRightWall = Physics2D.OverlapCircle((Vector2)transform.position + rightOffset, collisionRadius, groundLayer);
-        onLeftWall = Physics2D.OverlapCircle((Vector2)transform.position + leftOffset, collisionRadius, groundLayer);
-    }
 
+    }
 
     void Move()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-
-        float moveBy = x * speed;
-
-        rb.velocity = new Vector2(moveBy, rb.velocity.y);
-    }
-
-    void movestatic()
-    {
 
         horizontalAxis = Input.GetAxisRaw("Horizontal");
-        //print(x);
-        //print("move" + move);
-        /*
-        if (horizontalAxis == 0)
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-            move = false;
-
-        }
-        else
-        {
-            rb.velocity = new Vector2(horizontalAxis * walk_speed, rb.velocity.y);
-            move = true;
-        }*/
-        // Move the character by finding the target velocity
         float speed;
         if (isGrounded)
         {
@@ -159,40 +118,20 @@ public class CharacterController : MonoBehaviour
             speed = walk_speed - .5f;
         }
         Vector3 targetVelocity = new Vector2(horizontalAxis * speed , rb.velocity.y);
-        // And then smoothing it out and applying it to the character
-        rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+        rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref velocityRef, movementSmoothing);
     }
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && (isGrounded || morejumps > 0) && walltouch == false)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && (isGrounded) && walltouch == false)
         {
             midjump = true;
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            morejumps--;
-            //animator.SetBool("jump", true);
             jump = true;
             transform.parent = null;
-            GroundTouch();
+            jumpParticle.Play();
             ani.SetTrigger("jump");
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && (isclimbing == true))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            //animator.SetBool("jump", true);
-            jump = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) && (walltouch == true) && isGrounded == false)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce * 1.5f);
-            //animator.SetBool("jump", true);
-            jump = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) && (walltouch == true) && isGrounded == true)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        }
-
     }
 
 
@@ -201,11 +140,11 @@ public class CharacterController : MonoBehaviour
     {
         if (jump == true && rb.velocity.y > 0)
         {
-            midair = 1;
+            midAir = 1;
         }
         else if (jump == true && rb.velocity.y < 0)
         {
-            midair = -1;
+            midAir = -1;
             if (isGrounded)
             {
                 jump = false;
@@ -217,7 +156,7 @@ public class CharacterController : MonoBehaviour
         }
         else if (jump == false)
         {
-            midair = 0;
+            midAir = 0;
         }
 
     }
@@ -228,51 +167,51 @@ public class CharacterController : MonoBehaviour
         {
             rb.velocity += Vector2.up * Physics2D.gravity * (fallMultiplier - 1) * Time.deltaTime;
         }
-        else if (rb.velocity.y > 0 && !Input.GetKey(KeyCode.Space))
+        else if (rb.velocity.y > 0 && !Input.GetKey(KeyCode.UpArrow))
         {
             rb.velocity += Vector2.up * Physics2D.gravity * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
     }
-    void bufferjump()
+    void BufferJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded == false)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded == false)
         {
-            bufferbool = true;
+            bufferBool = true;
         }
-        if (bufferbool == true)
+        if (bufferBool == true)
         {
-            buffercounter++;
+            bufferCounter++;
             if (isGrounded && !jump)
             {
 
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 jump = true;
-                GroundTouch();
+                jumpParticle.Play();
             }
-            if (buffercounter > buffermax)
+            if (bufferCounter > bufferMax)
             {
-                bufferbool = false;
-                buffercounter = 0;
+                bufferBool = false;
+                bufferCounter = 0;
             }
 
         }
 
     }
-    void coyetetime()
+    void CoyeteTime()
     {
         if (isGrounded == false)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && coybuffer < coymax && midjump == false)
+            if (Input.GetKeyDown(KeyCode.UpArrow) && coyBuffer < coyMax && midjump == false)
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 jump = true;
             }
-            coybuffer++;
+            coyBuffer++;
 
         }
         else
         {
-            coybuffer = 0;
+            coyBuffer = 0;
         }
     }
     void CheckIfGrounded()
@@ -282,56 +221,44 @@ public class CharacterController : MonoBehaviour
         if (colliders != null)
         {
             isGrounded = true;
-            //jump = false;
-            morejumps = defaultAdditionalJumps;
-            // climbLadder = false;
+
         }
         else
         {
-            if (isGrounded)
-            {
-                lastTimeGrounded = Time.time;
-            }
             isGrounded = false;
         }
     }
-
-
-    void OnCollisionEnter2D(Collision2D other)
+    void CheckWalls()
     {
-
-        if (other.gameObject.tag == "wall")
+        Collider2D colliders = Physics2D.OverlapCircle((Vector2)transform.position + rightOffset, collisionRadius, groundLayer);
+        if (colliders != null)
         {
-            walltouch = true;
+            onRightWall = true;
         }
-        if (other.gameObject.tag == "moving")
+        else
         {
-            m_currMovingPlatform = other.gameObject.transform;
-            transform.SetParent(m_currMovingPlatform);
+           onRightWall = false;
         }
-        if (other.gameObject.tag == "bounce")
+        Collider2D colliders2= Physics2D.OverlapCircle((Vector2)transform.position + leftOffset, collisionRadius, groundLayer);
+        if (colliders2 != null)
         {
-            rb.velocity = new Vector2(rb.velocity.x, 30);
+            onLeftWall = true;
+        }
+        else
+        {
+            onLeftWall = false;
         }
 
     }
-    void GroundTouch()
+    void OnDrawGizmos()
     {
-        jumpParticle.Play();
+        Gizmos.color = Color.red;
+
+        var positions = new Vector2[] { rightOffset, leftOffset };
+
+        Gizmos.DrawWireSphere((Vector2)transform.position + rightOffset, collisionRadius);
+        Gizmos.DrawWireSphere((Vector2)transform.position + leftOffset, collisionRadius);
+        Gizmos.DrawWireSphere(isGroundedChecker.position, checkGroundRadius);
     }
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "wall")
-        {
-            walltouch = false;
-        }
 
-        if (other.gameObject.tag == "moving")
-        {
-            transform.parent = null;
-            m_currMovingPlatform = null;
-
-        }
-
-    }
 }

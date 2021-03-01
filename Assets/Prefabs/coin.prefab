@@ -131,10 +131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73bb137db922a545b5ab7dd02cce89a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScorePlus: {fileID: 2455426314289330966, guid: 72f9927b332ee8a48b10da3987b69b61,
+  ScorePlusPrefab: {fileID: 2455426314289330966, guid: 72f9927b332ee8a48b10da3987b69b61,
     type: 3}
-  CoinParticle: {fileID: 4004353510139125966, guid: 2b895d70631fcd143a8fc8c3d95f7df5,
+  CoinParticlePrefab: {fileID: 4004353510139125966, guid: 2b895d70631fcd143a8fc8c3d95f7df5,
     type: 3}
-  Player: {fileID: 0}
   magnetDistance: 1
   speed: 2

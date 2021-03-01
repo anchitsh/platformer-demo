@@ -2,29 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
+
 public class tiles : MonoBehaviour
 {
-    public Tile water;
-    public Tile land;
-    public Tilemap tilemap;
-    // Start is called before the first frame update
+    public Tile normal;
+    public Tile stone;
+    public Tilemap tilemapNormal, tilemapStone;
+    public GameObject coinPrefab;
     void Start()
     {
-        for (int x = 0; x < 100; x++)
+        //var xmlData = @"<TileCollection><TileObjects><TileObj><type>Normal</type><x>0</x><y>0</y></TileObj></TileObjects></TileCollection>";
+        //var tileCollection = ReadXML.LoadFromText(xmlData);
+        var tileCollection = ReadXML.Load(Path.Combine(Application.dataPath, "tilemap.xml"));
+  
+        print(tileCollection.TileObjects[0].type);
+
+        
+        for (int i = 0; i < tileCollection.TileObjects.Length; i++)
         {
-            for (int y = 0; y < 100; y++)
+            if(tileCollection.TileObjects[i].type == ObjType.Normal)
             {
-                Vector3Int p = new Vector3Int(x, y, 0);
-                bool odd = (x + y) % 2 == 1;
-                Tile tile = odd ? water : land;
-                tilemap.SetTile(p, tile);
+                Vector3Int p = new Vector3Int((int)tileCollection.TileObjects[i].x, (int)tileCollection.TileObjects[i].y, 0);
+                Tile tile = normal;
+                tilemapNormal.SetTile(p, tile);
             }
+            else if (tileCollection.TileObjects[i].type == ObjType.Stone)
+            {
+                Vector3Int p = new Vector3Int((int)tileCollection.TileObjects[i].x, (int)tileCollection.TileObjects[i].y, 0);
+                Tile tile = stone;
+                tilemapStone.SetTile(p, tile);
+            }
+            else if(tileCollection.TileObjects[i].type == ObjType.Coin)
+            {
+                GameObject coin = Instantiate(coinPrefab);
+                coin.transform.position = new Vector3(tileCollection.TileObjects[i].x, tileCollection.TileObjects[i].y, 0);
+            }
+           
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -6,19 +6,29 @@ public class AnimationController : MonoBehaviour
 {
     CharacterController chara;
     Animator ani;
-    // Start is called before the first frame update
+
     void Start()
     {
         chara = GetComponentInParent<CharacterController>();
         ani = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        float horizontalAxis = chara.horizontalAxis;
         print("HorizontalAxis"+chara.horizontalAxis);
-        ani.SetFloat("HorizontalAxis", chara.horizontalAxis);
+
+        if (chara.onLeftWall && horizontalAxis<0)
+        {
+            horizontalAxis = 0;
+        }
+        else if (chara.onRightWall && horizontalAxis > 0)
+        {
+            horizontalAxis = 0;
+        }
+
+        ani.SetFloat("HorizontalAxis", horizontalAxis);
         ani.SetBool("jump", chara.jump);
-        ani.SetInteger("jumpState", chara.midair);
+        ani.SetInteger("jumpState", chara.midAir);
     }
 }
