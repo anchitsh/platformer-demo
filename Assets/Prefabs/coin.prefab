@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 311676012770361747}
   m_Layer: 0
   m_Name: coin
-  m_TagString: Untagged
+  m_TagString: Coin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,5 +135,5 @@ MonoBehaviour:
     type: 3}
   CoinParticlePrefab: {fileID: 4004353510139125966, guid: 2b895d70631fcd143a8fc8c3d95f7df5,
     type: 3}
-  magnetDistance: 0.5
+  magnetDistance: 1
   speed: 1

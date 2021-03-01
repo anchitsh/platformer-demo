@@ -7,7 +7,8 @@ public class CoinScript : MonoBehaviour
     public GameObject ScorePlusPrefab, CoinParticlePrefab;
     private GameObject Player;
     public float magnetDistance, speed;
-    private float playerPosition, coinPosition, distance;
+    private float distance;
+    private Vector2 playerPosition, coinPosition;
     Vector2 playerDirection;
 
     public void Start()
@@ -16,9 +17,9 @@ public class CoinScript : MonoBehaviour
     }
     public void Update()
     {
-        playerPosition = Player.transform.position.x;
-        coinPosition = transform.position.x;
-        distance = Mathf.Abs(playerPosition - coinPosition);
+        playerPosition = Player.transform.position;
+        coinPosition = transform.position;
+        distance = Vector2.Distance(playerPosition, coinPosition);
         if (distance < magnetDistance)
         {
             float step = speed * Time.deltaTime; 
@@ -35,6 +36,7 @@ public class CoinScript : MonoBehaviour
             score.transform.position = transform.position +new Vector3(0, .3f, 0);
             GameObject particle = Instantiate(CoinParticlePrefab);
             particle.transform.position = transform.position + new Vector3(0, 0, 0);
+            
             Destroy(this.gameObject);
         }
     }
