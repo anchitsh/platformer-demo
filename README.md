@@ -1,4 +1,4 @@
-# platformer-demo
+# Platformer Demo
 Demo made in a couple days
 
 The characteter controller can move around and jump with arrow keys or WAD
