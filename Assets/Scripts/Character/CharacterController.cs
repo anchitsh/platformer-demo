@@ -79,8 +79,7 @@ public class CharacterController : MonoBehaviour
         LimitFallSpeed();
         JumpMidAir();
         LandingEffects();
-        
-
+        print(rb.velocity.x+" , "+ rb.velocity.y);
     }
 
     private void FlipCharacter()
@@ -112,7 +111,7 @@ public class CharacterController : MonoBehaviour
 
     private void Jump()
     {
-        if ((Input.GetKeyDown(KeyCode.UpArrow)|| Input.GetKey(KeyCode.W)) && (isGrounded))
+        if ((Input.GetKeyDown(KeyCode.UpArrow)|| Input.GetKeyDown(KeyCode.W)) && (isGrounded))
         {
             midjump = true;
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -169,7 +168,7 @@ public class CharacterController : MonoBehaviour
     }
     private void BufferJump()
     {
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && isGrounded == false)
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isGrounded == false)
         {
             bufferBool = true;
         }
@@ -197,7 +196,7 @@ public class CharacterController : MonoBehaviour
     {
         if (isGrounded == false)
         {
-            if ((Input.GetKeyDown(KeyCode.UpArrow)|| Input.GetKey(KeyCode.W)) && coyBuffer < coyMax && midjump == false)
+            if ((Input.GetKeyDown(KeyCode.UpArrow)|| Input.GetKeyDown(KeyCode.W)) && coyBuffer < coyMax && midjump == false)
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 jumpAudio.Play();

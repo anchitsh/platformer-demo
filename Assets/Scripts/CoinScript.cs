@@ -17,6 +17,7 @@ public class CoinScript : MonoBehaviour
     }
     public void Update()
     {
+        /*
         playerPosition = Player.transform.position;
         coinPosition = transform.position;
         distance = Vector2.Distance(playerPosition, coinPosition);
@@ -24,20 +25,18 @@ public class CoinScript : MonoBehaviour
         {
             float step = speed * Time.deltaTime; 
             transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, step);
-        }
-
+        }*/
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
             CoinManager.coins++;
-            GameObject score = Instantiate(ScorePlusPrefab);
-            score.transform.position = transform.position +new Vector3(0, .3f, 0);
-            GameObject particle = Instantiate(CoinParticlePrefab);
-            particle.transform.position = transform.position + new Vector3(0, 0, 0);
-            
-            Destroy(this.gameObject);
+            //GameObject score = Instantiate(ScorePlusPrefab);
+            //score.transform.position = transform.position +new Vector3(0, .3f, 0);
+            //GameObject particle = Instantiate(CoinParticlePrefab);
+            //particle.transform.position = transform.position + new Vector3(0, 0, 0);
+            this.gameObject.SetActive(false);
         }
     }
 }
