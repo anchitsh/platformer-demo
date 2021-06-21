@@ -8,9 +8,9 @@ Variable jump - The jump height is based on how long the jump button is pressed.
 
 Fall multiplier - Gravity is increased for the second half of the jump when the character is falling down. 
 
-coyote jump - The character can still jump for a few frame after leaving a platform.
+Coyote jump - The character can still jump for a few frame after leaving a platform.
 
-buffer jump - if the player tries to jump up a bit before landing, the controller will accept this input for a few frames before landing and perform a jump.
+Buffer jump - if the player tries to jump up a bit before landing, the controller will accept this input for a few frames before landing and perform a jump.
 
 Other things like squashing and stretching while jumping, particle effects, and a few more details make the character feel even better.
 
