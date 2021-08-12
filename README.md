@@ -1,6 +1,6 @@
 # Platformer Demo
 
-The characteter controller can move around and jump with arrow keys or WAD.
+The character controller can move around and jump with arrow keys or WAD.
 
 Ive added some extra functions to make the controller feel smooth, for example-
 
