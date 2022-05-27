@@ -49,11 +49,11 @@ public class CharacterController : MonoBehaviour
     [HideInInspector]
     public int midAir;
 
-
     [Header("Misc")]
     public ParticleSystem jumpParticle;
     private bool groundTouch;
     public AudioSource jumpAudio, coinAudio;
+    
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
