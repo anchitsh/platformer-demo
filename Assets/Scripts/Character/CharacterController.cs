@@ -121,8 +121,8 @@ public class CharacterController : MonoBehaviour
             ani.SetTrigger("jump");
             jumpAudio.Play();
         }
-
     }
+    
     private void JumpMidAir()
     {
         if (jump == true && rb.velocity.y > 0)
@@ -147,6 +147,7 @@ public class CharacterController : MonoBehaviour
         }
 
     }
+    
     private void LimitFallSpeed()
     {
         if (rb.velocity.y < maxFallSpeed)
@@ -166,6 +167,7 @@ public class CharacterController : MonoBehaviour
             rb.velocity += Vector2.up * Physics2D.gravity * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
     }
+    
     private void BufferJump()
     {
         if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isGrounded == false)
@@ -192,6 +194,7 @@ public class CharacterController : MonoBehaviour
         }
 
     }
+    
     private void CoyeteTime()
     {
         if (isGrounded == false)
@@ -214,6 +217,7 @@ public class CharacterController : MonoBehaviour
             midjump = false;
         }
     }
+    
     private void CheckIfGrounded()
     {
         Collider2D colliders = Physics2D.OverlapCircle(isGroundedChecker.position, checkGroundRadius, groundLayer);
@@ -228,6 +232,7 @@ public class CharacterController : MonoBehaviour
             isGrounded = false;
         }
     }
+    
     private void CheckWalls()
     {
         Collider2D colliders = Physics2D.OverlapCircle((Vector2)transform.position + rightOffset, wallCollisionRadius, groundLayer);
@@ -248,8 +253,8 @@ public class CharacterController : MonoBehaviour
         {
             onLeftWall = false;
         }
-
     }
+    
     private void LandingEffects()
     {
         if (isGrounded && !groundTouch)
@@ -264,6 +269,7 @@ public class CharacterController : MonoBehaviour
         }
 
     }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Coin")
@@ -271,5 +277,4 @@ public class CharacterController : MonoBehaviour
             coinAudio.Play();
         }
     }
-
 }
